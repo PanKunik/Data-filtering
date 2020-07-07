@@ -17,27 +17,31 @@ namespace DF.ConsoleUI
             ProductController ProductsController = new ProductController();
             ProductsController.PopulateProducts();
 
-            Menu.Display();
-            List<ValidationResult> results;
             Filtering filter = new Filtering();
 
-            filter.Filter(ProductsController.Products);
+            Menu.SetInstanceForDisplaying(filter);
+            Menu.Display(ProductsController.Products);
 
-            //List<Predicate<Product>> criterias = new List<Predicate<Product>>();
+            filter.AddMaxPriceFilter(2000);
+            filter.AddMinPriceFilter(1.5M);
 
-            //Expression<Func<Product, bool>> expression = product => criterias.All(pToFilter => pToFilter(product));
+            filter.AddInStockFilter(1);
 
-            //do
-            //{
-            //    Console.Clear();
+            filter.AddCategoryFilter("Rowery");
+            filter.AddCategoryFilter("Football");
+            filter.AddCategoryFilter("Nabiał");
+            // List<ValidationResult> results;
+            Console.WriteLine("\nClick to continue ... ");
+            
+            Console.ReadLine();
+            Console.Clear();
 
-            //    EnumerableQuery<Product> productsToFilter = new EnumerableQuery<Product>(ProductsController.Products);
-            //    List<Product> newProducts = (from pr in productsToFilter.Where(expression) select pr).ToList();
+            List<Product> prods = filter.Filter(ProductsController.Products);
 
-            //}
-            //while (program);
+            Menu.Display(prods);
 
-            Console.Read();
+            Console.WriteLine("\nClick to continue ... ");
+            Console.ReadLine();
         }
     }
 }

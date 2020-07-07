@@ -44,6 +44,26 @@ namespace DF.ConsoleUI.Library.Controllers
                     Category = "Football",
                     InStock = 12
                 });
+
+                Products.Add(new Product()
+                {
+                    Id = 4,
+                    Name = "Mleko UHT 3,2%",
+                    Description = "Mmmm... Dobre mleko!",
+                    Price = 3.99M,
+                    Category = "Nabiał",
+                    InStock = 1220
+                });
+
+                Products.Add(new Product()
+                {
+                    Id = 5,
+                    Name = "Chleb pszenno-żytni",
+                    Description = "Mniam",
+                    Price = 4.99M,
+                    Category = "Pieczywo",
+                    InStock = 3541
+                });
             }
         }
     }

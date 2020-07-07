@@ -1,6 +1,7 @@
 ﻿using DF.ConsoleUI.Library.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -12,45 +13,152 @@ namespace DF.ConsoleUI.Library.Filters
     {
         private List<Predicate<Product>> OrPredicates { get; set; } = new List<Predicate<Product>>();
         private List<Predicate<Product>> AndPredicates { get; set; } = new List<Predicate<Product>>();
-        private CategoryFilter CategoryFilter { get; set; }
-        private NameFilter NameFilter { get; set; }
-        private PriceFilter PriceFilter { get; set; }
-        private InStockFilter InStockFilter { get; set; }
+        private CategoryFilter CategoryFilter { get; set; } = new CategoryFilter();
+        private NameFilter NameFilter { get; set; } = new NameFilter();
+        private PriceFilter PriceFilter { get; set; } = new PriceFilter();
+        private InStockFilter InStockFilter { get; set; } = new InStockFilter();
 
-        public Filtering()
+        public List<Product> Filter(List<Product> productsToFilter)
         {
-            CategoryFilter = new CategoryFilter();
-            NameFilter = new NameFilter();
-            PriceFilter = new PriceFilter();
-            InStockFilter = new InStockFilter();
-        }
-        public void Filter(List<Product> productsToFilter)
-        {
-            CategoryFilter.TryAddNewCategory("Rowery");
-            CategoryFilter.TryAddNewCategory("Football");
+            MakeFilters();
 
-            PriceFilter.TryAddMaximumPrice(1900.0M);
-
-            NameFilter.TryAddNewNameFilter("i");
-
-            foreach(var item in CategoryFilter.MakePredicates())
-                OrPredicates.Add(item);
-
-            foreach(var item in PriceFilter.MakePredicates())
-                AndPredicates.Add(item);
-
-            foreach (var item in NameFilter.MakePredicates())
-                AndPredicates.Add(item);
-
-            Expression<Func<Product, bool>> expression = products => OrPredicates.Any(productsToFilter => productsToFilter(products)) && AndPredicates.All(productsToFilter => productsToFilter(products));
+            Expression<Func<Product, bool>> expression = products => ((OrPredicates.Count() > 0 ? OrPredicates.Any(productsToFilter => productsToFilter(products)) : true) && (AndPredicates.Count() > 0 ? AndPredicates.All(productsToFilter => productsToFilter(products)) : true));
 
             EnumerableQuery<Product> productsToFilterEnum = new EnumerableQuery<Product>(productsToFilter);
             var result = (from p in productsToFilterEnum.Where(expression) select p).ToList();
+
+            return result;
         }
 
         private void MakeFilters()
         {
+            MakeCategoryFilters();
+            MakeNameFilter();
+            MakePriceFilters();
+            MakeInStockFilter();
+        }
 
+        private void MakeCategoryFilters()
+        {
+            foreach(var category in CategoryFilter.MakePredicates())
+            {
+                if(category != null)
+                {
+                    OrPredicates.Add(category);
+                }
+            }
+        }
+
+        private void MakeNameFilter()
+        {
+            if (NameFilter.MakePredicate() != null)
+            {
+                AndPredicates.Add(NameFilter.MakePredicate());
+            }
+        }
+
+        private void MakePriceFilters()
+        {
+            foreach (var price in PriceFilter.MakePredicates())
+            {
+                if (price != null)
+                {
+                    AndPredicates.Add(price);
+                }
+            }
+        }
+
+        private void MakeInStockFilter()
+        {
+            if (InStockFilter.MakePredicate() != null)
+            {
+                AndPredicates.Add(InStockFilter.MakePredicate());
+            }
+        }
+
+        public List<ValidationResult> AddCategoryFilter(string category)
+        {
+            return CategoryFilter.TryAddNewCategory(category);
+        }
+
+        public List<ValidationResult> AddNameFilter(string name)
+        {
+            return NameFilter.TryAddNewNameFilter(name);
+        }
+
+        public List<ValidationResult> AddMinPriceFilter(decimal minPrice)
+        {
+            return PriceFilter.TryAddMinimumPrice(minPrice);
+        }
+
+        public List<ValidationResult> AddMaxPriceFilter(decimal maxPrice)
+        {
+            return PriceFilter.TryAddMaximumPrice(maxPrice);
+        }
+
+        public List<ValidationResult> AddInStockFilter(int minInStock)
+        {
+            return InStockFilter.TryAddInStockFilter(minInStock);
+        }
+
+        public void RemoveCategoryFilter(string category)
+        {
+            CategoryFilter.RemoveFilter(category);
+        }
+
+        public void RemoveAllCategories()
+        {
+            CategoryFilter.ClearFilters();
+        }
+
+        public void RemoveNameFilter()
+        {
+            NameFilter.ClearFilter();
+        }
+
+        public void RemoveMinPriceFilter()
+        {
+            PriceFilter.RemoveMinimumPrice();
+        }
+
+        public void RemoveMaxPriceFilter()
+        {
+            PriceFilter.RemoveMaximumPrice();
+        }
+
+        public void RemoveBothPriceFilters()
+        {
+            PriceFilter.ClearFilters();
+        }
+
+        public void RemoveInStockFilter()
+        {
+            InStockFilter.ClearFilter();
+        }
+
+        public string GetNameFilter()
+        {
+            return NameFilter.GetName();
+        }
+
+        public decimal? GetMinimumPriceFilter()
+        {
+            return PriceFilter.GetMinimalPrice();
+        }
+
+        public decimal? GetMaximumPriceFilter()
+        {
+            return PriceFilter.GetMaximumPrice();
+        }
+
+        public int? GetInStockFilter()
+        {
+            return InStockFilter.GetInStock();
+        }
+
+        public string[] GetCategoryFilters()
+        {
+            return CategoryFilter.GetCategories();
         }
     }
 }

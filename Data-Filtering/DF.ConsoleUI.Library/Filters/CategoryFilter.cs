@@ -100,5 +100,10 @@ namespace DF.ConsoleUI.Library.Filters
 
             return predicates;
         }
+
+        public string[] GetCategories()
+        {
+            return Categories;
+        }
     }
 }

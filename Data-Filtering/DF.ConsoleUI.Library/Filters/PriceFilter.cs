@@ -97,10 +97,19 @@ namespace DF.ConsoleUI.Library.Filters
         {
             List<Predicate<Product>> predicates = new List<Predicate<Product>>();
 
-            predicates.Add(product => product.Price >= ((MinimumPrice.Amount != null) ? MinimumPrice.Amount : 0));
-            predicates.Add(product => product.Price <= ((MaximumPrice.Amount != null) ? MaximumPrice.Amount : decimal.MaxValue));
+            predicates.Add(product => product.Price >= ((MinimumPrice.Amount != null) ? MinimumPrice.Amount : 0) && product.Price <= ((MaximumPrice.Amount != null) ? MaximumPrice.Amount : decimal.MaxValue));
 
             return predicates;
+        }
+
+        public decimal? GetMinimalPrice()
+        {
+            return MinimumPrice.Amount;
+        }
+
+        public decimal? GetMaximumPrice()
+        {
+            return MaximumPrice.Amount;
         }
     }
 }

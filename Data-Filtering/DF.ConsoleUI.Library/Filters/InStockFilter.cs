@@ -7,7 +7,7 @@ using System.Text;
 
 namespace DF.ConsoleUI.Library.Filters
 {
-    public class InStockFilter : IFilter
+    public class InStockFilter : ISingleFilter
     {
         private InStock MinimumInStock { get; set; } = new InStock();
 
@@ -44,18 +44,19 @@ namespace DF.ConsoleUI.Library.Filters
             MinimumInStock.InStockAmount = minInStock;
         }
 
-        public void ClearFilters()
+        public void ClearFilter()
         {
             MinimumInStock.InStockAmount = null;
         }
 
-        public List<Predicate<Product>> MakePredicates()
+        public Predicate<Product> MakePredicate()
         {
-            List<Predicate<Product>> predicates = new List<Predicate<Product>>();
+            return MinimumInStock.InStockAmount != null ? product => product.InStock >= MinimumInStock.InStockAmount : (Predicate<Product>)null;
+        }
 
-            predicates.Add(product => product.InStock >= MinimumInStock.InStockAmount);
-
-            return predicates;
+        public int? GetInStock()
+        {
+            return MinimumInStock.InStockAmount;
         }
     }
 }

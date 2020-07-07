@@ -8,7 +8,7 @@ namespace DF.ConsoleUI.Library.Models
     public class Name
     {
         [Required(ErrorMessage = "Name filter can't be empty.")]
-        [StringLength(40, MinimumLength = 3, ErrorMessage = "Name filter must have between 3-40 letters.")]
+        [StringLength(20, MinimumLength = 3, ErrorMessage = "Name filter must have between 3-20 letters.")]
         private string NameFilter { get; set; }
 
         public Name(string name)

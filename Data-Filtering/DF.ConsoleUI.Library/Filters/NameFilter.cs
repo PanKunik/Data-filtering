@@ -7,7 +7,7 @@ using System.Text;
 
 namespace DF.ConsoleUI.Library.Filters
 {
-    public class NameFilter : IFilter
+    public class NameFilter : ISingleFilter
     {
         private string Name { get; set; } = "";
 
@@ -44,18 +44,19 @@ namespace DF.ConsoleUI.Library.Filters
             Name = name;
         }
 
-        public void ClearFilters()
+        public void ClearFilter()
         {
             Name = "";
         }
 
-        public List<Predicate<Product>> MakePredicates()
+        public Predicate<Product> MakePredicate()
         {
-            List<Predicate<Product>> predicates = new List<Predicate<Product>>();
+            return Name != "" ? (product => product.Name.Contains(Name)) : (Predicate<Product>)null;
+        }
 
-            predicates.Add(product => product.Name.Contains(Name));
-
-            return predicates;
+        public string GetName()
+        {
+            return Name;
         }
     }
 }
