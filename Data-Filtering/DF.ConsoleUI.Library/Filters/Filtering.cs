@@ -32,6 +32,9 @@ namespace DF.ConsoleUI.Library.Filters
 
         private void MakeFilters()
         {
+            OrPredicates = new List<Predicate<Product>>();
+            AndPredicates = new List<Predicate<Product>>();
+
             MakeCategoryFilters();
             MakeNameFilter();
             MakePriceFilters();

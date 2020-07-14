@@ -1,4 +1,5 @@
-﻿using DF.ConsoleUI.Library.Filters;
+﻿using DF.ConsoleUI.Helpers.Input;
+using DF.ConsoleUI.Library.Filters;
 using DF.ConsoleUI.Library.Models;
 using System;
 using System.Collections.Generic;
@@ -83,6 +84,12 @@ namespace DF.ConsoleUI.Helpers
             MenuLabel();
             FilteringValues();
             ResetCursorPosition();
+            PrintProductsWithLabels(products);
+            DisplayFilteringMenu();
+        }
+
+        private static void PrintProductsWithLabels(List<Product> products)
+        {
             ProductsLabel();
             PrintAllProducts(products);
         }
@@ -95,6 +102,18 @@ namespace DF.ConsoleUI.Helpers
         private static void PrintAllProducts(List<Product> products)
         {
             ProductsPrinter.PrintProducts(products);
+        }
+
+        private static void DisplayFilteringMenu()
+        {
+            Console.WriteLine("\nFilters");
+            Console.WriteLine("1. Contain in name");
+            Console.WriteLine("2. Category");
+            Console.WriteLine("3. Price");
+            //Console.WriteLine("4. Minimum in stock");
+            //Console.WriteLine("5. Next page");
+            //Console.WriteLine("6. Previous page");
+            Console.WriteLine("404. Exit program");
         }
     }
 }
