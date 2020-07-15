@@ -110,7 +110,7 @@ namespace DF.ConsoleUI.Helpers
             Console.WriteLine("1. Contain in name");
             Console.WriteLine("2. Category");
             Console.WriteLine("3. Price");
-            //Console.WriteLine("4. Minimum in stock");
+            Console.WriteLine("4. Minimum in stock");
             //Console.WriteLine("5. Next page");
             //Console.WriteLine("6. Previous page");
             Console.WriteLine("404. Exit program");

@@ -6,11 +6,11 @@ using System.Text;
 
 namespace DF.ConsoleUI.Helpers.Menus
 {
-    public class NameMenu
+    public class InStockMenu
     {
         Filtering _filteringInstance;
 
-        public NameMenu(Filtering FilteringInstance)
+        public InStockMenu(Filtering FilteringInstance)
         {
             _filteringInstance = FilteringInstance;
         }
@@ -18,9 +18,9 @@ namespace DF.ConsoleUI.Helpers.Menus
         public void Display()
         {
             Console.Clear();
-            Console.WriteLine("Name Menu");
-            Console.WriteLine("1. New phrase");
-            Console.WriteLine("2. Clear phrase");
+            Console.WriteLine("InStock Menu");
+            Console.WriteLine("1. Add min in stock");
+            Console.WriteLine("2. Remove");
         }
 
         public void InvokeAction(int optionNumber)
@@ -28,13 +28,13 @@ namespace DF.ConsoleUI.Helpers.Menus
             switch(optionNumber)
             {
                 case -1:
-                    Message.WrongOption();
+                        Message.IntegerExpected();
                     break;
                 case 1:
-                    AddNewNameFilter();
+                        AddMinInStockFilter();
                     break;
                 case 2:
-                    ClearNameFilter();
+                        ClearMinInStockFilter();
                     break;
                 default:
                     Message.NoOptionFound();
@@ -42,14 +42,14 @@ namespace DF.ConsoleUI.Helpers.Menus
             }
         }
 
-        private void AddNewNameFilter()
+        private void AddMinInStockFilter()
         {
-            Message.PrintValidationSummary(_filteringInstance.AddNameFilter(UserInput.CatchString("Type new phrase: ")));
+            Message.PrintValidationSummary(_filteringInstance.AddInStockFilter(UserInput.CatchInt("Type min in stock: ")));
         }
 
-        private void ClearNameFilter()
+        private void ClearMinInStockFilter()
         {
-            _filteringInstance.RemoveNameFilter();
+            _filteringInstance.RemoveInStockFilter();
         }
     }
 }

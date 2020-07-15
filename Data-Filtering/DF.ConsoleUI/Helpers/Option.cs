@@ -8,16 +8,16 @@ using System.Text;
 
 namespace DF.ConsoleUI.Helpers
 {
-    public static class Option
+    public class Option
     {
-        static Filtering _filteringInstance;
+        Filtering _filteringInstance;
 
-        public static void SetFilteringInstance(Filtering FilteringInstance)
+        public Option(Filtering FilteringInstance)
         {
             _filteringInstance = FilteringInstance;
         }
 
-        public static bool InvokeAction(int optionNumber)
+        public bool InvokeAction(int optionNumber)
         {
             bool result = true;
 
@@ -35,6 +35,9 @@ namespace DF.ConsoleUI.Helpers
                 case 3:
                         Prices();
                     break;
+                case 4:
+                        InStock();
+                    break;
                 case 404:
                         Message.Goodbye();
                         result = false;
@@ -47,28 +50,36 @@ namespace DF.ConsoleUI.Helpers
             return result;
         }
 
-        private static void Names()
+        private void Names()
         {
-            NameMenu.SetFilteringInstance(_filteringInstance);
-            NameMenu.Display();
+            NameMenu nameMenu = new NameMenu(_filteringInstance);
 
-            NameMenu.InvokeAction(UserInput.CatchPositiveInt("Type option: "));
+            nameMenu.Display();
+            nameMenu.InvokeAction(UserInput.CatchPositiveInt("Type option: "));
         }
 
-        private static void Categories()
+        private void Categories()
         {
-            CategoryMenu.SetFilteringInstance(_filteringInstance);
-            CategoryMenu.Display();
+            CategoryMenu categoryMenu = new CategoryMenu(_filteringInstance);
 
-            CategoryMenu.InvokeAction(UserInput.CatchPositiveInt("Type option: "));
+            categoryMenu.Display();
+            categoryMenu.InvokeAction(UserInput.CatchPositiveInt("Type option: "));
         }
 
-        private static void Prices()
+        private void Prices()
         {
-            PriceMenu.SetFilteringInstance(_filteringInstance);
-            PriceMenu.Display();
+            PriceMenu priceMenu = new PriceMenu(_filteringInstance);
 
-            PriceMenu.InvokeAction(UserInput.CatchPositiveInt("Type option: "));
+            priceMenu.Display();
+            priceMenu.InvokeAction(UserInput.CatchPositiveInt("Type option: "));
+        }
+
+        private void InStock()
+        {
+            InStockMenu inStockMenu = new InStockMenu(_filteringInstance);
+
+            inStockMenu.Display();
+            inStockMenu.InvokeAction(UserInput.CatchPositiveInt("Type option: "));
         }
     }
 }

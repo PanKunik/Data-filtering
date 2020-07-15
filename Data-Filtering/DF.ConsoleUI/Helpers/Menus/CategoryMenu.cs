@@ -6,16 +6,15 @@ using System.Text;
 
 namespace DF.ConsoleUI.Helpers.Menus
 {
-    public static class CategoryMenu
+    public class CategoryMenu
     {
-        static Filtering _filteringInstance;
-
-        public static void SetFilteringInstance(Filtering FilteringInstance)
+        Filtering _filteringInstance;
+        public CategoryMenu(Filtering FilteringInstance)
         {
             _filteringInstance = FilteringInstance;
         }
 
-        public static void Display()
+        public void Display()
         {
             Console.Clear();
             Console.WriteLine("Category Menu");
@@ -24,7 +23,7 @@ namespace DF.ConsoleUI.Helpers.Menus
             Console.WriteLine("3. Clear all categories");
         }
 
-        public static void InvokeAction(int optionNumber)
+        public void InvokeAction(int optionNumber)
         {
             switch (optionNumber)
             {
@@ -46,17 +45,17 @@ namespace DF.ConsoleUI.Helpers.Menus
             }
         }
 
-        private static void AddNewCategory()
+        private void AddNewCategory()
         {
             Message.PrintValidationSummary(_filteringInstance.AddCategoryFilter(UserInput.CatchString("Type category name: ")));
         }
 
-        private static void RemoveCategory()
+        private void RemoveCategory()
         {
             _filteringInstance.RemoveCategoryFilter(UserInput.CatchString("Type category name: "));
         }
 
-        private static void ClearAllCategories()
+        private void ClearAllCategories()
         {
             _filteringInstance.RemoveAllCategories();
         }

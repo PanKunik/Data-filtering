@@ -6,16 +6,15 @@ using System.Text;
 
 namespace DF.ConsoleUI.Helpers.Menus
 {
-    public static class PriceMenu
+    public class PriceMenu
     {
-        static Filtering _filteringInstance;
-
-        public static void SetFilteringInstance(Filtering FilteringInstance)
+        Filtering _filteringInstance;
+        public PriceMenu(Filtering FilteringInstance)
         {
             _filteringInstance = FilteringInstance;
         }
 
-        public static void Display()
+        public void Display()
         {
             Console.Clear();
             Console.WriteLine("Price Menu");
@@ -26,7 +25,7 @@ namespace DF.ConsoleUI.Helpers.Menus
             Console.WriteLine("5. Clear both filters for price");
         }
 
-        public static void InvokeAction(int optionNumber)
+        public void InvokeAction(int optionNumber)
         {
             switch(optionNumber)
             {
@@ -54,27 +53,27 @@ namespace DF.ConsoleUI.Helpers.Menus
             }
         }
 
-        private static void AddPriceFromFilter()
+        private void AddPriceFromFilter()
         {
             Message.PrintValidationSummary(_filteringInstance.AddMinPriceFilter(UserInput.CatchDecimal("Type min price for products: ")));
         }
 
-        private static void ClearPriceFromFilter()
+        private void ClearPriceFromFilter()
         {
             _filteringInstance.RemoveMinPriceFilter();
         }
 
-        private static void AddPriceToFilter()
+        private void AddPriceToFilter()
         {
             Message.PrintValidationSummary(_filteringInstance.AddMaxPriceFilter(UserInput.CatchDecimal("Type max price for products: ")));
         }
 
-        private static void ClearPriceToFilter()
+        private void ClearPriceToFilter()
         {
             _filteringInstance.RemoveMaxPriceFilter();
         }
 
-        private static void ClearBothPriceFilters()
+        private void ClearBothPriceFilters()
         {
             _filteringInstance.RemoveBothPriceFilters();
         }
