@@ -11,9 +11,9 @@ namespace DF.ConsoleUI.Helpers
     {
         public static Filtering FilteringInstance { get; set; }
 
-        public static void SetInstanceForDisplaying(Filtering Instance)
+        public static void SetInstanceForDisplaying(Filtering instance)
         {
-            FilteringInstance = Instance;
+            FilteringInstance = instance;
         }
 
         private static void MenuLabel()
@@ -37,8 +37,8 @@ namespace DF.ConsoleUI.Helpers
 
         private static void CategoriesFilter()
         {
-            List<string> categories = new List<string>(FilteringInstance.GetCategoryFilters());
-            PrintCategories(categories);
+            List<string> Categories = new List<string>(FilteringInstance.GetCategoryFilters());
+            PrintCategories(Categories);
         }
 
         private static void PrintCategories(List<string> categories)
@@ -111,8 +111,8 @@ namespace DF.ConsoleUI.Helpers
             Console.WriteLine("2. Category");
             Console.WriteLine("3. Price");
             Console.WriteLine("4. Minimum in stock");
-            //Console.WriteLine("5. Next page");
-            //Console.WriteLine("6. Previous page");
+            Console.WriteLine("5. Next page");
+            Console.WriteLine("6. Previous page");
             Console.WriteLine("404. Exit program");
         }
     }

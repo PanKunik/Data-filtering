@@ -16,34 +16,37 @@ namespace DF.ConsoleUI
         static void Main(string[] args)
         {
             ProductController ProductsController = CreateProductControllerInstance();
-            Filtering filter = CreateFilteringInstance();
+            Filtering Filter = CreateFilteringInstance();
+            PagedProducts Products = CreatePagedProductsInstance();
 
-            Menu.SetInstanceForDisplaying(filter);
+            Menu.SetInstanceForDisplaying(Filter);
 
             bool programMainLoop;
 
             do
             {
-                List<Product> prods = filter.Filter(ProductsController.Products);
-                Menu.Display(prods);
+                Products.SetListOfProducts(Filter.Filter(ProductsController.GetAllProducts()));
+                Menu.Display(Products.GetPage());
 
-                Option option = new Option(filter);
-                programMainLoop = option.InvokeAction(UserInput.CatchPositiveInt("Type your option: "));
+                Option Option = new Option(Filter, Products);
+                programMainLoop = Option.InvokeAction(UserInput.CatchPositiveInt("Type your option: "));
             }
             while (programMainLoop);
         }
 
         static ProductController CreateProductControllerInstance()
         {
-            ProductController ControllerForProducts = new ProductController();
-            ControllerForProducts.PopulateProducts();
-
-            return ControllerForProducts;
+            return new ProductController();
         }
 
         static Filtering CreateFilteringInstance()
         {
             return new Filtering();
+        }
+
+        static PagedProducts CreatePagedProductsInstance()
+        {
+            return new PagedProducts();
         }
     }
 }

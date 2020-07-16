@@ -9,54 +9,54 @@ namespace DF.ConsoleUI.Library.Filters
 {
     public class NameFilter : ISingleFilter
     {
-        private string Name { get; set; } = "";
+        private string _name = "";
 
         public List<ValidationResult> TryAddNewNameFilter(string name)
         {
-            List<ValidationResult> result = new List<ValidationResult>();
+            List<ValidationResult> Results = new List<ValidationResult>();
 
             if (CanAddNameFilter())
             {
                 Name NameModel = new Name(name);
-                ValidationContext validationContext = new ValidationContext(NameModel);
+                ValidationContext ValidationContext = new ValidationContext(NameModel);
 
-                if (Validator.TryValidateObject(NameModel, validationContext, result, true))
+                if (Validator.TryValidateObject(NameModel, ValidationContext, Results, true))
                 {
                     AddNewNameFilter(name);
-                    result.Add(new ValidationResult("Successfully added name filter."));
+                    Results.Add(new ValidationResult("Successfully added name filter."));
                 }
             }
             else
             {
-                result.Add(new ValidationResult("Can't add name filter. There already is one."));
+                Results.Add(new ValidationResult("Can't add name filter. There already is one."));
             }
 
-            return result;
+            return Results;
         }
 
         private bool CanAddNameFilter()
         {
-            return Name == "";
+            return _name == "";
         }
 
         private void AddNewNameFilter(string name)
         {
-            Name = name;
+            _name = name;
         }
 
         public void ClearFilter()
         {
-            Name = "";
+            _name = "";
         }
 
         public Predicate<Product> MakePredicate()
         {
-            return Name != "" ? (product => product.Name.Contains(Name)) : (Predicate<Product>)null;
+            return _name != "" ? (Product => Product.Name.Contains(_name)) : (Predicate<Product>)null;
         }
 
         public string GetName()
         {
-            return Name;
+            return _name;
         }
     }
 }

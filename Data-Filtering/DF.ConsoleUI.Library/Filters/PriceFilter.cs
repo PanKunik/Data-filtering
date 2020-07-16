@@ -9,82 +9,82 @@ namespace DF.ConsoleUI.Library.Filters
 {
     public class PriceFilter : IFilter
     {
-        private Price MinimumPrice { get; set; } = new Price();
-        private Price MaximumPrice { get; set; } = new Price();
+        private Price _minimumPrice = new Price();
+        private Price _maximumPrice = new Price();
 
         public List<ValidationResult> TryAddMinimumPrice(decimal minPrice)
         {
-            List<ValidationResult> results = new List<ValidationResult>();
+            List<ValidationResult> Results = new List<ValidationResult>();
 
             if(CanAddMinimumPrice())
             {
                 Price NewMinPrice = new Price(minPrice);
-                ValidationContext validationContext = new ValidationContext(NewMinPrice);
+                ValidationContext ValidationContext = new ValidationContext(NewMinPrice);
 
-                if(Validator.TryValidateObject(NewMinPrice, validationContext, results, true))
+                if(Validator.TryValidateObject(NewMinPrice, ValidationContext, Results, true))
                 { 
                     AddNewMinimumPrice(minPrice);
-                    results.Add(new ValidationResult("Sucessfully added minimum price."));
+                    Results.Add(new ValidationResult("Sucessfully added minimum price."));
                 }
             }
             else
             {
-                results.Add(new ValidationResult("Can't add minimum price. There is already one."));
+                Results.Add(new ValidationResult("Can't add minimum price. There is already one."));
             }
 
-            return results;
+            return Results;
         }
 
         private bool CanAddMinimumPrice()
         {
-            return MinimumPrice.Amount == null;
+            return _minimumPrice.Amount == null;
         }
 
         private void AddNewMinimumPrice(decimal minPrice)
         {
-            MinimumPrice.Amount = minPrice;
+            _minimumPrice.Amount = minPrice;
         }
         public List<ValidationResult> TryAddMaximumPrice(decimal maxPrice)
         {
-            List<ValidationResult> results = new List<ValidationResult>();
+            List<ValidationResult> Results = new List<ValidationResult>();
 
             if (CanAddMaximumPrice())
             {
                 Price NewMaxPrice = new Price(maxPrice);
-                ValidationContext validationContext = new ValidationContext(NewMaxPrice);
+                ValidationContext ValidationContext = new ValidationContext(NewMaxPrice);
 
-                if (Validator.TryValidateObject(NewMaxPrice, validationContext, results, true))
+                if (Validator.TryValidateObject(NewMaxPrice, ValidationContext, Results, true))
                 {
                     AddNewMaximumPrice(maxPrice);
-                    results.Add(new ValidationResult("Sucessfully added maximum price."));
+                    Results.Add(new ValidationResult("Sucessfully added maximum price."));
                 }
             }
             else
             {
-                results.Add(new ValidationResult("Can't add maximum price. There is already one."));
+                Results.Add(new ValidationResult("Can't add maximum price. There is already one."));
             }
 
-            return results;
+            return Results;
         }
 
         private bool CanAddMaximumPrice()
         {
-            return MaximumPrice.Amount == null;
+            return _maximumPrice.Amount == null;
         }
 
         private void AddNewMaximumPrice(decimal maxPrice)
         {
-            MaximumPrice.Amount = maxPrice;
+            _maximumPrice.Amount = maxPrice;
         }
 
         public void RemoveMinimumPrice()
         {
-            MaximumPrice.Amount = null;
+            _maximumPrice.Amount = null;
         }
 
         public void RemoveMaximumPrice()
         {
-            MinimumPrice.Amount = null;
+            _minimumPrice.Amount = null;
         }
 
         public void ClearFilters()
@@ -95,21 +95,21 @@ namespace DF.ConsoleUI.Library.Filters
 
         public List<Predicate<Product>> MakePredicates()
         {
-            List<Predicate<Product>> predicates = new List<Predicate<Product>>();
+            List<Predicate<Product>> Predicates = new List<Predicate<Product>>();
 
-            predicates.Add(product => product.Price >= ((MinimumPrice.Amount != null) ? MinimumPrice.Amount : 0) && product.Price <= ((MaximumPrice.Amount != null) ? MaximumPrice.Amount : decimal.MaxValue));
+            Predicates.Add(Product => Product.Price >= ((_minimumPrice.Amount != null) ? _minimumPrice.Amount : 0) && Product.Price <= ((_maximumPrice.Amount != null) ? _maximumPrice.Amount : decimal.MaxValue));
 
-            return predicates;
+            return Predicates;
         }
 
         public decimal? GetMinimalPrice()
         {
-            return MinimumPrice.Amount;
+            return _minimumPrice.Amount;
         }
 
         public decimal? GetMaximumPrice()
         {
-            return MaximumPrice.Amount;
+            return _maximumPrice.Amount;
         }
     }
 }

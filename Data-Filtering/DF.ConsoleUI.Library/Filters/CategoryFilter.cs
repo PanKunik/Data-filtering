@@ -10,36 +10,36 @@ namespace DF.ConsoleUI.Library.Filters
 {
     public class CategoryFilter : IFilter
     {
-        private string[] Categories { get; set; } = new string[3] { "", "", "" };
+        private string[] _categories { get; set; } = new string[3] { "", "", "" };
 
         public List<ValidationResult> TryAddNewCategory(string category)
         {
-            List<ValidationResult> result = new List<ValidationResult>();
+            List<ValidationResult> Results = new List<ValidationResult>();
 
             if (CanAddNewCategory())
             {
                 Category CategoryModel = MakeCategoryModel(category);
-                ValidationContext validationContext = new ValidationContext(CategoryModel);
+                ValidationContext ValidationContext = new ValidationContext(CategoryModel);
 
-                if (Validator.TryValidateObject(CategoryModel, validationContext, result, true))
+                if (Validator.TryValidateObject(CategoryModel, ValidationContext, Results, true))
                 { 
                     AddNewCategory(CategoryModel);
-                    result.Add(new ValidationResult("Successfully added new filter for category."));
+                    Results.Add(new ValidationResult("Successfully added new filter for category."));
                 }
             }
             else
             {
-                result.Add(new ValidationResult("Can't add new filter for category.\nYou have reached maximum filters for categories."));
+                Results.Add(new ValidationResult("Can't add new filter for category.\nYou have reached maximum filters for categories."));
             }
 
-            return result;
+            return Results;
         }
 
         private bool CanAddNewCategory()
         {
             int count = 0;
 
-            foreach(var category in Categories)
+            foreach(var category in _categories)
             {
                 if(category != "")
                 {
@@ -55,13 +55,13 @@ namespace DF.ConsoleUI.Library.Filters
             return new Category(category);
         }
 
-        private void AddNewCategory(Category Category)
+        private void AddNewCategory(Category category)
         {
-            for(int index = 0; index < Categories.Length; index++)
+            for(int index = 0; index < _categories.Length; index++)
             {
-                if(Categories[index] == "")
+                if(_categories[index] == "")
                 {
-                    Categories[index] = Category.CategoryName;
+                    _categories[index] = category.CategoryName;
                     break;
                 }
             }
@@ -69,41 +69,41 @@ namespace DF.ConsoleUI.Library.Filters
 
         public void RemoveFilter(string category)
         {
-            for(int index = 0; index < Categories.Length; index++)
+            for(int index = 0; index < _categories.Length; index++)
             {
-                if(Categories[index] == category)
+                if(_categories[index] == category)
                 {
-                    Categories[index] = "";
+                    _categories[index] = "";
                 }
             }
         }
 
         public void ClearFilters()
         {
-            for (int index = 0; index < Categories.Length; index++)
+            for (int index = 0; index < _categories.Length; index++)
             {
-                Categories[index] = "";
+                _categories[index] = "";
             }
         }
 
         public List<Predicate<Product>> MakePredicates()
         {
-            List<Predicate<Product>> predicates = new List<Predicate<Product>>();
+            List<Predicate<Product>> Predicates = new List<Predicate<Product>>();
 
-            foreach (var category in Categories)
+            foreach (var category in _categories)
             {
                 if (category != "")
                 {
-                    predicates.Add(product => product.Category == category);
+                    Predicates.Add(Product => Product.Category == category);
                 }
             }
 
-            return predicates;
+            return Predicates;
         }
 
         public string[] GetCategories()
         {
-            return Categories;
+            return _categories;
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using DF.ConsoleUI.Helpers.Input;
 using DF.ConsoleUI.Helpers.Menus;
+using DF.ConsoleUI.Library.Controllers;
 using DF.ConsoleUI.Library.Filters;
 using DF.ConsoleUI.Library.Models;
 using System;
@@ -11,10 +12,12 @@ namespace DF.ConsoleUI.Helpers
     public class Option
     {
         Filtering _filteringInstance;
+        PagedProducts _pagedProductsInstance;
 
-        public Option(Filtering FilteringInstance)
+        public Option(Filtering filteringInstance, PagedProducts pagedProductsInstance)
         {
-            _filteringInstance = FilteringInstance;
+            _filteringInstance = filteringInstance;
+            _pagedProductsInstance = pagedProductsInstance;
         }
 
         public bool InvokeAction(int optionNumber)
@@ -38,6 +41,12 @@ namespace DF.ConsoleUI.Helpers
                 case 4:
                         InStock();
                     break;
+                case 5:
+                        NextPage();
+                    break;
+                case 6:
+                        PreviousPage();
+                    break;
                 case 404:
                         Message.Goodbye();
                         result = false;
@@ -52,34 +61,44 @@ namespace DF.ConsoleUI.Helpers
 
         private void Names()
         {
-            NameMenu nameMenu = new NameMenu(_filteringInstance);
+            NameMenu NameMenu = new NameMenu(_filteringInstance);
 
-            nameMenu.Display();
-            nameMenu.InvokeAction(UserInput.CatchPositiveInt("Type option: "));
+            NameMenu.Display();
+            NameMenu.InvokeAction(UserInput.CatchPositiveInt("Type option: "));
         }
 
         private void Categories()
         {
-            CategoryMenu categoryMenu = new CategoryMenu(_filteringInstance);
+            CategoryMenu CategoryMenu = new CategoryMenu(_filteringInstance);
 
-            categoryMenu.Display();
-            categoryMenu.InvokeAction(UserInput.CatchPositiveInt("Type option: "));
+            CategoryMenu.Display();
+            CategoryMenu.InvokeAction(UserInput.CatchPositiveInt("Type option: "));
         }
 
         private void Prices()
         {
-            PriceMenu priceMenu = new PriceMenu(_filteringInstance);
+            PriceMenu PriceMenu = new PriceMenu(_filteringInstance);
 
-            priceMenu.Display();
-            priceMenu.InvokeAction(UserInput.CatchPositiveInt("Type option: "));
+            PriceMenu.Display();
+            PriceMenu.InvokeAction(UserInput.CatchPositiveInt("Type option: "));
         }
 
         private void InStock()
         {
-            InStockMenu inStockMenu = new InStockMenu(_filteringInstance);
+            InStockMenu InStockMenu = new InStockMenu(_filteringInstance);
 
-            inStockMenu.Display();
-            inStockMenu.InvokeAction(UserInput.CatchPositiveInt("Type option: "));
+            InStockMenu.Display();
+            InStockMenu.InvokeAction(UserInput.CatchPositiveInt("Type option: "));
+        }
+
+        private void NextPage()
+        {
+            _pagedProductsInstance.NextPage();
+        }
+
+        private void PreviousPage()
+        {
+            _pagedProductsInstance.PreviousPage();
         }
     }
 }

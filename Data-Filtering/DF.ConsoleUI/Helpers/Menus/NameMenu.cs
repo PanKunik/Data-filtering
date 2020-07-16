@@ -10,9 +10,9 @@ namespace DF.ConsoleUI.Helpers.Menus
     {
         Filtering _filteringInstance;
 
-        public NameMenu(Filtering FilteringInstance)
+        public NameMenu(Filtering filteringInstance)
         {
-            _filteringInstance = FilteringInstance;
+            _filteringInstance = filteringInstance;
         }
 
         public void Display()

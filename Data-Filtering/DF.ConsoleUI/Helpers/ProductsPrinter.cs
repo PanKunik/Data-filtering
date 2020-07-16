@@ -7,17 +7,17 @@ namespace DF.ConsoleUI.Helpers
 {
     public static class ProductsPrinter
     {
-        public static void PrintProducts(List<Product> Products)
+        public static void PrintProducts(List<Product> products)
         {
-            foreach(var Product in Products)
+            foreach(Product Product in products)
             {
                 PrintProduct(Product);
             }
         }
 
-        private static void PrintProduct(Product Product)
+        private static void PrintProduct(Product product)
         {
-            Console.Write($"{Product.Id,-12}{Product.Name,-21}{Product.Category,-23}{Product.Price,-12:C2}{Product.InStock,12}");
+            Console.Write($"{product.Id,-12}{product.Name,-21}{product.Category,-23}{product.Price,-12:C2}{product.InStock,12}");
         }
     }
 }

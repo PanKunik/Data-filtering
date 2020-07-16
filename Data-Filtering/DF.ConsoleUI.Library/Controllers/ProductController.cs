@@ -7,15 +7,20 @@ namespace DF.ConsoleUI.Library.Controllers
 {
     public class ProductController
     {
-        public List<Product> Products { get; set; }
+        private List<Product> _products;
 
-        public void PopulateProducts()
+        public List<Product> GetAllProducts()
         {
-            if(Products == null)
-            {
-                Products = new List<Product>();
+            return _products;
+        }
 
-                Products.Add(new Product() 
+        public ProductController()
+        {
+            if(_products == null)
+            {
+                _products = new List<Product>();
+
+                _products.Add(new Product() 
                 {
                     Id = 1,
                     Name = "Rower trekingowy",
@@ -25,7 +30,7 @@ namespace DF.ConsoleUI.Library.Controllers
                     InStock = 2
                 });
 
-                Products.Add(new Product()
+                _products.Add(new Product()
                 {
                     Id = 2,
                     Name = "Rower miejski",
@@ -35,7 +40,7 @@ namespace DF.ConsoleUI.Library.Controllers
                     InStock = 1
                 });
 
-                Products.Add(new Product()
+                _products.Add(new Product()
                 {
                     Id = 3,
                     Name = "Piłka football",
@@ -45,7 +50,7 @@ namespace DF.ConsoleUI.Library.Controllers
                     InStock = 12
                 });
 
-                Products.Add(new Product()
+                _products.Add(new Product()
                 {
                     Id = 4,
                     Name = "Mleko UHT 3,2%",
@@ -55,7 +60,7 @@ namespace DF.ConsoleUI.Library.Controllers
                     InStock = 1220
                 });
 
-                Products.Add(new Product()
+                _products.Add(new Product()
                 {
                     Id = 5,
                     Name = "Chleb pszenno-żytni",
@@ -63,6 +68,46 @@ namespace DF.ConsoleUI.Library.Controllers
                     Price = 4.99M,
                     Category = "Pieczywo",
                     InStock = 3541
+                });
+
+                _products.Add(new Product()
+                {
+                    Id = 6,
+                    Name = "Ser żółty gouda",
+                    Description = "Mlekpolik",
+                    Price = 3.69M,
+                    Category = "Nabiał",
+                    InStock = 1258
+                });
+
+                _products.Add(new Product()
+                {
+                    Id = 7,
+                    Name = "Wędlina Polska",
+                    Description = "PolMies",
+                    Price = 7.29M,
+                    Category = "Wędliny",
+                    InStock = 584
+                });
+
+                _products.Add(new Product()
+                {
+                    Id = 8,
+                    Name = "Wędka dla kota",
+                    Description = "Tripix",
+                    Price = 3.29M,
+                    Category = "Akcesoria zwierzęce",
+                    InStock = 3256
+                });
+
+                _products.Add(new Product()
+                {
+                    Id = 9,
+                    Name = "Smycz dla psa",
+                    Description = "Melaos",
+                    Price = 18.99M,
+                    Category = "Akcesoria zwierzęce",
+                    InStock = 951
                 });
             }
         }

@@ -9,54 +9,54 @@ namespace DF.ConsoleUI.Library.Filters
 {
     public class InStockFilter : ISingleFilter
     {
-        private InStock MinimumInStock { get; set; } = new InStock();
+        private InStock _minimumInStock = new InStock();
 
         public List<ValidationResult> TryAddInStockFilter(int minInStock)
         {
-            List<ValidationResult> results = new List<ValidationResult>();
+            List<ValidationResult> Results = new List<ValidationResult>();
 
             if(CanAddNewInStock())
             {
                 InStock NewInStock = new InStock(minInStock);
-                ValidationContext validationContext = new ValidationContext(NewInStock);
+                ValidationContext ValidationContext = new ValidationContext(NewInStock);
 
-                if(Validator.TryValidateObject(NewInStock, validationContext, results, true))
+                if(Validator.TryValidateObject(NewInStock, ValidationContext, Results, true))
                 {
                     AddNewInStock(minInStock);
-                    results.Add(new ValidationResult("Successfully added new in stock filter."));
+                    Results.Add(new ValidationResult("Successfully added new in stock filter."));
                 }
             }
             else
             {
-                results.Add(new ValidationResult("Can't add in stock filter. There already is one."));
+                Results.Add(new ValidationResult("Can't add in stock filter. There already is one."));
             }
 
-            return results;
+            return Results;
         }
 
         private bool CanAddNewInStock()
         {
-            return MinimumInStock.InStockAmount == null;
+            return _minimumInStock.InStockAmount == null;
         }
 
         private void AddNewInStock(int minInStock)
         {
-            MinimumInStock.InStockAmount = minInStock;
+            _minimumInStock.InStockAmount = minInStock;
         }
 
         public void ClearFilter()
         {
-            MinimumInStock.InStockAmount = null;
+            _minimumInStock.InStockAmount = null;
         }
 
         public Predicate<Product> MakePredicate()
         {
-            return MinimumInStock.InStockAmount != null ? product => product.InStock >= MinimumInStock.InStockAmount : (Predicate<Product>)null;
+            return _minimumInStock.InStockAmount != null ? Product => Product.InStock >= _minimumInStock.InStockAmount : (Predicate<Product>)null;
         }
 
         public int? GetInStock()
         {
-            return MinimumInStock.InStockAmount;
+            return _minimumInStock.InStockAmount;
         }
     }
 }

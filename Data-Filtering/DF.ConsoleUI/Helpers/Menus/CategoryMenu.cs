@@ -9,9 +9,9 @@ namespace DF.ConsoleUI.Helpers.Menus
     public class CategoryMenu
     {
         Filtering _filteringInstance;
-        public CategoryMenu(Filtering FilteringInstance)
+        public CategoryMenu(Filtering filteringInstance)
         {
-            _filteringInstance = FilteringInstance;
+            _filteringInstance = filteringInstance;
         }
 
         public void Display()
