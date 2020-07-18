@@ -11,8 +11,8 @@ namespace DF.ConsoleUI.Library.Filters
 {
     public class Filtering
     {
-        private List<Predicate<Product>> _orPredicates = new List<Predicate<Product>>();
-        private List<Predicate<Product>> _andPredicates = new List<Predicate<Product>>();
+        private List<Predicate<Product>> _orPredicates;
+        private List<Predicate<Product>> _andPredicates;
         private CategoryFilter _categoryFilter = new CategoryFilter();
         private NameFilter _nameFilter = new NameFilter();
         private PriceFilter _priceFilter = new PriceFilter();

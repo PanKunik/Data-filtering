@@ -1,4 +1,5 @@
 ﻿using DF.ConsoleUI.Library.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Net;
@@ -9,12 +10,24 @@ namespace DF.ConsoleUI.Library.Controllers
     {
         const int _productsPerPage = 8;
         int _page = 1;
+        int _numberOfPages = 1;
 
         List<Product> _products = new List<Product>();
 
         public void SetListOfProducts(List<Product> products)
         {
             _products = products;
+            _numberOfPages = (int)Math.Ceiling(_products.Count / (decimal)_productsPerPage);
+        }
+
+        public int GetCurrentPage()
+        {
+            return _page;
+        }
+
+        public int GetNumberOfPages()
+        {
+            return _numberOfPages;
         }
 
         public void NextPage()
@@ -38,19 +51,38 @@ namespace DF.ConsoleUI.Library.Controllers
             _products.Add(product);
         }
 
-        public List<Product> GetAll()
+        public ProductsPage GetAll()
         {
-            return _products;
+            return new ProductsPage()
+            {
+                CurrentPage = _page,
+                NumberOfPages = _numberOfPages,
+                Products = _products
+            };
         }
 
-        public List<Product> GetPage()
+        public ProductsPage GetPage()
         {
-            List<Product> PageOfProducts;
+            ProductsPage PageOfProducts;
 
             if (NextPageIsLastPage())
-                PageOfProducts = GetNextPage();
+            {
+                PageOfProducts = new ProductsPage()
+                {
+                    CurrentPage = _page,
+                    NumberOfPages = _numberOfPages,
+                    Products = GetNextPage()
+                };
+            }
             else
-                PageOfProducts = GetLastPage();
+            {
+                PageOfProducts = new ProductsPage()
+                {
+                    CurrentPage = _page,
+                    NumberOfPages = _numberOfPages,
+                    Products = GetLastPage()
+                };
+            }
 
             return PageOfProducts;
         }
