@@ -13,8 +13,13 @@ namespace DF.ConsoleUI
 {
     class Program
     {
+        private const int WindowWidth = 80;
+        private const int WindowHeight = 25;
+
         static void Main(string[] args)
         {
+            Console.SetWindowSize(WindowWidth, WindowHeight);
+
             ProductController ProductsController = CreateProductControllerInstance();
             Filtering Filter = CreateFilteringInstance();
             PagedProducts Products = CreatePagedProductsInstance();
