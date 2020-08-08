@@ -1,0 +1,36 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v3.1",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v3.1": {
+      "DF.ConsoleUI/1.0.0": {
+        "dependencies": {
+          "DF.ConsoleUI.Library": "1.0.0"
+        },
+        "runtime": {
+          "DF.ConsoleUI.dll": {}
+        }
+      },
+      "DF.ConsoleUI.Library/1.0.0": {
+        "runtime": {
+          "DF.ConsoleUI.Library.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "DF.ConsoleUI/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "DF.ConsoleUI.Library/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
